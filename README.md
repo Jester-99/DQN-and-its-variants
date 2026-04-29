@@ -53,6 +53,7 @@ dqn_hw3/
 ├── hw3_1_report.md         # HW3-1: Understanding report
 ├── hw3_2_enhanced_dqn.py   # HW3-2: Double DQN & Dueling DQN (player)
 ├── hw3_3_lightning_dqn.py  # HW3-3: PyTorch Lightning DQN + tips (random)
+├── live_demo.py            # Local visualization script
 └── README.md               # This file
 ```
 
