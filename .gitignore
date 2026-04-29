@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+checkpoint/
+checkpoints/
+lightning_logs/
+.ipynb_checkpoints/
+.vscode/
