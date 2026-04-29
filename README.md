@@ -12,35 +12,7 @@ This project implements Deep Q-Networks (DQN) and its advanced variants (Double 
 
 The following demonstrates the agent's pathfinding in the **Static Mode** after training.
 
-```text
-Initial grid:
-- - - G 
-- W - P 
-+ - - - 
-
-Action=up, reward=-1, done=False
-- - - G 
-+ W - P 
-- - - - 
-
-Action=up, reward=-1, done=False
-+ - - G 
-- W - P 
-- - - - 
-
-Action=right, reward=-1, done=False
-- + - G 
-- W - P 
-- - - - 
-
-Action=right, reward=-1, done=False
-- - + G 
-- W - P 
-- - - - 
-
-Action=right, reward=10, done=True
-Goal reached!
-```
+![DQN Pathfinding Demo](demo.gif)
 
 ---
 
