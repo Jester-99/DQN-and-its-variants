@@ -1,119 +1,109 @@
-# 📘 Homework 3: DQN and its Variants
+# 🤖 Deep Q-Network & Variants Showcase
 
-[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.11-EE4C2C.svg)](https://pytorch.org/)
-[![Lightning](https://img.shields.io/badge/-Lightning-792ee5.svg)](https://www.pytorchlightning.ai/)
+<p align="center">
+  <img src="demo.gif" width="600" alt="DQN Agent Demo">
+</p>
 
-This project implements Deep Q-Networks (DQN) and its advanced variants (Double DQN, Dueling DQN) to solve a custom 3x4 GridWorld environment.
-
----
-
-## 📺 Live Demo (Static Mode)
-
-The following demonstrates the agent's pathfinding in the **Static Mode** after training.
-
-![DQN Pathfinding Demo](demo.gif)
+<p align="center">
+  <b>A comprehensive implementation of Deep Reinforcement Learning (DRL) algorithms applied to a dynamic GridWorld environment.</b>
+</p>
 
 ---
 
-## 🏗️ Project Structure
+## 🌟 Overview
 
-```
-dqn_hw3/
-├── environment.py          # Custom 3×4 GridWorld (static / player / random)
-├── hw3_1_naive_dqn.py      # HW3-1: Naive DQN + Experience Replay (static)
-├── hw3_1_report.md         # HW3-1: Understanding report
-├── hw3_2_enhanced_dqn.py   # HW3-2: Double DQN & Dueling DQN (player)
-├── hw3_3_lightning_dqn.py  # HW3-3: PyTorch Lightning DQN + tips (random)
-├── live_demo.py            # Local visualization script
-├── TUTORIAL.md             # Detailed teaching document (Purpose/Method/Result)
-└── README.md               # This file
-```
+This repository contains a high-performance, modular implementation of **DQN (Deep Q-Network)** and its most influential variants. Built using **PyTorch** and **PyTorch Lightning**, this project explores the transition from naive value-based methods to state-of-the-art stabilization techniques.
 
----
-
-## 🌍 Environment Modes
-
-A 3 × 4 GridWorld with three distinct modes:
-
-| Mode | Player Position | Goal/Pit/Wall Position | Use Case |
-|---|---|---|---|
-| `static` | Fixed (2,0) | Fixed | Test correctness / reproducibility |
-| `player` | Random | Fixed | Test strategy with varying starts |
-| `random` | Random | Random | Train a stronger, generalised policy |
-
-**Encoding:** state vector of length 12 (3×4 flattened):
-- `-1.0` = Wall | `-0.5` = Pit | `+0.5` = Goal | `+1.0` = Player | `0.0` = Empty
+### 🚀 Key Features
+- **Naive DQN**: Foundation with Experience Replay.
+- **Double DQN**: Correction for Q-value overestimation bias.
+- **Dueling DQN**: Specialized architecture for state-value and action-advantage decoupling.
+- **Lightning Framework**: Production-ready training loop using PyTorch Lightning.
+- **Stabilization Suite**:
+  - ⚡ **Prioritized Experience Replay (PER)**
+  - 🛠️ **Gradient Clipping**
+  - 📉 **Cosine Annealing LR Scheduler**
+  - 🔄 **Polyak Soft Target Updates**
 
 ---
 
-## 🧠 HW3-1: Naive DQN (Static Mode)
+## 🛠️ Technical Specifications
 
-Basic DQN implementation with an **Experience Replay Buffer** to stabilize training by breaking temporal correlations.
+### 1. Agent Architecture
+| Component | Specification |
+| :--- | :--- |
+| **Network Type** | Multi-Layer Perceptron (MLP) |
+| **Hidden Layers** | 2 Layers (128 units each) |
+| **Activation** | ReLU (Rectified Linear Unit) |
+| **Output Layer** | Linear (Action size = 4) |
+| **Dueling Split** | Separate V(s) [1 unit] and A(s,a) [4 units] heads |
 
-### Training Progress
-![Naive DQN Results](hw3_1_naive_dqn_static.png)
+### 2. Hyperparameters
+| Parameter | Value | Description |
+| :--- | :--- | :--- |
+| `Learning Rate` | 3e-4 | Initial rate with Cosine Annealing |
+| `Discount (γ)` | 0.99 | Emphasis on future rewards |
+| `Batch Size` | 128 | Size of random sample from buffer |
+| `Buffer Size` | 20,000 | Total transitions stored |
+| `Epsilon Decay` | 0.997 | Rate of transition from exploration to exploitation |
+| `Tau (τ)` | 0.005 | Target network update smoothing factor |
 
-> **Key concepts:** ε-greedy exploration, TD-learning, Replay Memory.
-> See [hw3_1_report.md](hw3_1_report.md) for the full analysis.
-
----
-
-## ⚖️ HW3-2: Enhanced DQN Variants (Player Mode)
-
-Comparison of advanced architectures on the **Player Mode** (random starting positions).
-
-### Comparative Results
-![DQN Variants Results](hw3_2_dqn_variants_player.png)
-
-| Variant | Improvement |
-|---|---|
-| **Standard DQN** | Baseline performance. |
-| **Double DQN** | Decouples action selection from evaluation to reduce Q-value overestimation. |
-| **Dueling DQN** | Separates state value $V(s)$ and action advantage $A(s,a)$ for better generalization. |
-
----
-
-## 🔁 HW3-3: Lightning DQN + Training Tips (Random Mode)
-
-Fully randomized environment solved using **PyTorch Lightning** with industrial-grade training stabilizers.
-
-### Training Stability
-![Lightning DQN Results](hw3_3_pl_dqn_random.png)
-
-| Technique | Benefit |
-|---|---|
-| **Gradient Clipping** | Prevents gradient explosion in complex random layouts. |
-| **Cosine Annealing LR** | Smoothly decays learning rate for better convergence. |
-| **PER (Prioritized Replay)** | Samples "surprising" transitions (high TD-error) more frequently. |
-| **Soft Target Update** | Uses Polyak averaging ($\tau=0.005$) for smoother target tracking. |
+### 3. Environment: 3x4 GridWorld
+- **State Space**: Discrete $12$-dimensional vector (flattened 3x4 grid).
+- **Action Space**: Discrete $4$ (Up, Down, Left, Right).
+- **Reward Function**:
+  - Goal reached: $+10$
+  - Pitfall: $-10$
+  - Per-step penalty: $-1$ (optimal path incentive)
 
 ---
 
-## 🚀 How to Run
+## 📈 Performance Results
 
-### 1. Install Dependencies
+### HW3-1: Base Stability
+The naive DQN demonstrates consistent convergence in fixed environments through the use of an **Experience Replay Buffer**.
+
+<img src="hw3_1_naive_dqn_static.png" width="48%"> <img src="hw3_2_dqn_variants_player.png" width="48%">
+
+### HW3-3: Generalized Intelligence
+Utilizing **Prioritized Experience Replay** and **Gradient Clipping**, the Lightning-based model achieves stable learning even in fully randomized environments.
+
+<p align="center">
+  <img src="hw3_3_pl_dqn_random.png" width="70%">
+</p>
+
+---
+
+## 💻 Installation & Usage
+
+### Prerequisites
+- Python 3.13+
+- PyTorch / Lightning
+- Matplotlib / Numpy
+
 ```bash
+# Clone the repository
+git clone https://github.com/Jester-99/DQN-and-its-variants.git
+cd DQN-and-its-variants
+
+# Install requirements
 pip install torch lightning matplotlib numpy
 ```
 
-### 2. Execute Training
+### Running the Demo
+Execute the live visualization of the trained agent:
 ```bash
-# Task 1
-python hw3_1_naive_dqn.py
-
-# Task 2
-python hw3_2_enhanced_dqn.py
-
-# Task 3
-python hw3_3_lightning_dqn.py
+python live_demo.py
 ```
 
 ---
 
-## 📚 References
+## 📑 Detailed Documentation
+For a deep dive into the mathematical formulations and implementation logic, please refer to:
+- [📖 Tutorial: Purpose, Method, and Results](TUTORIAL.md)
+- [📝 HW3-1 Understanding Report](hw3_1_report.md)
 
-- [Deep Reinforcement Learning in Action](https://github.com/DeepReinforcementLearning/DeepReinforcementLearningInAction)
-- Mnih et al. (2013) - DQN Original Paper
-- Wang et al. (2016) - Dueling DQN
-- Van Hasselt et al. (2016) - Double DQN
+---
+<p align="center">
+  Developed by <a href="https://github.com/Jester-99">Jester-99</a>
+</p>
