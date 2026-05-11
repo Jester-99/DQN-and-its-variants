@@ -14,6 +14,13 @@
 
 This repository contains a high-performance, modular implementation of **DQN (Deep Q-Network)** and its most influential variants. Built using **PyTorch** and **PyTorch Lightning**, this project explores the transition from naive value-based methods to state-of-the-art stabilization techniques.
 
+### Project Structure
+├── hw3_1_naive_dqn.py      # HW3-1: Base DQN (static)
+├── hw3_2_enhanced_dqn.py   # HW3-2: Double DQN & Dueling DQN (player)
+├── hw3_3_lightning_dqn.py  # HW3-3: PyTorch Lightning DQN + tips (random)
+├── hw3_4_rainbow_dqn.py    # HW3-4: Rainbow DQN (N-step + Noisy Nets)
+├── live_demo.py            # Local visualization script
+
 ### 🚀 Key Features
 - **Naive DQN**: Foundation with Experience Replay.
 - **Double DQN**: Correction for Q-value overestimation bias.
@@ -66,11 +73,26 @@ The naive DQN demonstrates consistent convergence in fixed environments through 
 <img src="hw3_1_naive_dqn_static.png" width="48%"> <img src="hw3_2_dqn_variants_player.png" width="48%">
 
 ### HW3-3: Generalized Intelligence
-Utilizing **Prioritized Experience Replay** and **Gradient Clipping**, the Lightning-based model achieves stable learning even in fully randomized environments.
+Utilizing **Prioritized Experience Replay** and **Gradient Clipping**, the Lightning-based model achieves stable learning even in fully randomized environments. Architecture: **Dueling Double DQN** (best of HW3-2 + tips).
+
+**Output:** `hw3_3_pl_dqn_random.png`
 
 <p align="center">
   <img src="hw3_3_pl_dqn_random.png" width="70%">
 </p>
+
+## 🌈 HW3-4: Rainbow DQN (Bonus)
+
+Integrates **N-step Learning** and **Noisy Networks** on top of the Dueling Double DQN architecture.
+
+### Enhanced Performance
+![Rainbow DQN Results](hw3_4_rainbow_random.png)
+
+| Feature | Mechanism |
+|---|---|
+| **N-step Returns** | Propagates rewards faster by looking $N$ steps ahead ($N=3$). |
+| **Noisy Networks** | Replaces $\epsilon$-greedy with parametric noise for smarter exploration. |
+| **Full Suite** | Combines Double, Dueling, PER, and Polyak updates. |
 
 ---
 
